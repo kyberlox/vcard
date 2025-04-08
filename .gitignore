@@ -1,3 +1,4 @@
 .env
 /nginx/ssl/regconf.emk.ru.crt
 /nginx/ssl/regconf.emk.ru.key
+certbot
