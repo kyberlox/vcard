@@ -12,11 +12,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 
-@app.get("/by_uuid/{uuid}", tags=["VCard"])
+@app.get("/api/by_uuid/{uuid}", tags=["VCard"])
 def root(uuid):
     return User(uuid).finfByUuid()
 
-@app.get("/{uuid}/qr", tags=["VCard"])
+@app.get("/api/{uuid}/qr", tags=["VCard"])
 def dowload_file(uuid):
     current_file_path = f'./static/{uuid}.png'
     file_exist = os.path.isfile(current_file_path)
@@ -29,7 +29,7 @@ def dowload_file(uuid):
         file_path = f'./static/{filename}'
         return FileResponse(file_path, media_type="image/png")
 
-@app.get("/{uuid}/get", tags=["VCard"])
+@app.get("/api/{uuid}/get", tags=["VCard"])
 def download_contact(uuid):
     content, filename = User(uuid).create_vcs() 
     return Response(content=content, media_type="text/vcard",  headers={"Content-Disposition": f"attachment; filename={filename}"})
