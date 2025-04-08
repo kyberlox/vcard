@@ -24,11 +24,27 @@ services:
       #- frontend
     ports:
       - "80:80"
-      #- "443:443"
+      - "443:443"
     volumes:
       - ./nginx/:/etc/nginx/conf.d/
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     networks:
       - app-network
+  
+  certbot:
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot --webroot-path=/var/www/certbot/ --email timofeev.a.a@emk.ru --agree-tos --no-eff-email -d vcard.emk.org.ru
+    networks:
+      - app-network
+
+
 
 networks:
   app-network:
