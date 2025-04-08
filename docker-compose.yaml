@@ -10,7 +10,7 @@ services:
       - .env
     volumes:
       - ./code/:/app/
-      - ./code/static/:app/static/
+      - ./code/static/:/app/static/
     ports:
       - "8000:8000"
     networks: 
