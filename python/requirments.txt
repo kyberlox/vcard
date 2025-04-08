@@ -1,0 +1,8 @@
+qrcode==8.1
+bitrix24-rest==2.0.3
+fastapi[all]==0.115.8
+uvicorn==0.34.0
+pillow==11.1.0
+transliterate==1.10.2
+vobject==0.9.9
+requests==2.32.3
