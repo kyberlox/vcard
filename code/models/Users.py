@@ -18,8 +18,12 @@ class User:
     
     def finfByUuid(self):
         titles_to_change = {'UF_USR_1696592324977' : 'Дирекция', 'UF_USR_1705744824758' : 'Подразделение', 'UF_USR_1707225966581' : 'Совместительство'}
-        
-        return b24().getUsersByUuid(f"ad|{self.uuid}")
+        search = b24().getUsersByUuid(f"ad|{self.uuid}")
+        for title, new_title in titles_to_change.items():
+            if title in search[0].keys():
+                value = search[0].pop(title)
+                search[0][new_title] = value
+        return search[0]
 
     def findByIDdepart(self, id):
         return b24().getDepartByID(id)
