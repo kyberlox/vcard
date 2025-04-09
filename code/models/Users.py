@@ -17,6 +17,8 @@ class User:
         self.uuid = uuid
     
     def finfByUuid(self):
+        titles_to_change = {'UF_USR_1696592324977' : 'Дирекция', 'UF_USR_1705744824758' : 'Подразделение', 'UF_USR_1707225966581' : 'Совместительство'}
+        
         return b24().getUsersByUuid(f"ad|{self.uuid}")
 
     def findByIDdepart(self, id):
