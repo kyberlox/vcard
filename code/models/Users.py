@@ -37,48 +37,45 @@ class User:
 
     def create_vcs(self):
         user_info = self.finfByUuid()
-        filename = f'{cyrillic_to_latin(user_info[0]['LAST_NAME'])}-{cyrillic_to_latin(user_info[0]['NAME'])}-{cyrillic_to_latin(user_info[0]['SECOND_NAME'])}.vcf'
+        filename = f'{cyrillic_to_latin(user_info['LAST_NAME'])}-{cyrillic_to_latin(user_info['NAME'])}-{cyrillic_to_latin(user_info['SECOND_NAME'])}.vcf'
 
-        important_param = ['NAME', 'LAST_NAME', 'SECOND_NAME', 'EMAIL', "PERSONAL_MOBILE", 'WORK_PHONE', 'WORK_POSITION','UF_DEPARTMENT', "PERSONAL_PHOTO"]
+        important_param = ['NAME', 'LAST_NAME', 'SECOND_NAME', 'EMAIL', "PERSONAL_MOBILE", 'WORK_PHONE', 'WORK_POSITION','Дирекция', "PERSONAL_PHOTO"]
 
         vcard = vobject.vCard()
-        vcard.add("FN").value = f"{user_info[0]['LAST_NAME']} {user_info[0]['NAME']} {user_info[0]['SECOND_NAME']}"
+        vcard.add("FN").value = f"{user_info['LAST_NAME']} {user_info['NAME']} {user_info['SECOND_NAME']}"
         vcard.add("N").value = vobject.vcard.Name(
-            family=user_info[0]['LAST_NAME'],
-            given=user_info[0]['NAME'],
-            additional=user_info[0]['SECOND_NAME']
+            family=user_info['LAST_NAME'],
+            given=user_info['NAME'],
+            additional=user_info['SECOND_NAME']
         )
         user_depart = None
         user_position = None
         user_company = None
         for key in important_param:
-            if key in user_info[0].keys():
+            if key in user_info.keys():
                 if key == "PERSONAL_MOBILE":                    
-                    vcard.add("TEL").value = user_info[0]["PERSONAL_MOBILE"]
+                    vcard.add("TEL").value = user_info["PERSONAL_MOBILE"]
                     vcard.add("TEL").type_param = "CELL"
 
                 elif key == 'WORK_PHONE':                    
-                    vcard.add("TEL").value = user_info[0]['WORK_PHONE']
+                    vcard.add("TEL").value = user_info['WORK_PHONE']
                     vcard.add("TEL").type_param = "WORK"
                 
                 elif key == "EMAIL":
-                    vcard.add("EMAIL").value = user_info[0]["EMAIL"]
-                    domen = user_info[0]["EMAIL"].split("@")
+                    vcard.add("EMAIL").value = user_info["EMAIL"]
+                    domen = user_info["EMAIL"].split("@")
                     if domen[-1] == 'emk.ru':
                         user_company = 'АО "НПО "ЭМК"'
 
-                elif key == 'UF_DEPARTMENT':                    
-                    id_depart = user_info[0]['UF_DEPARTMENT'][0]
-                    res = self.findByIDdepart(id_depart)
-                    if res:
-                        user_depart = res[0]['NAME']
+                elif key == 'Дирекция':                    
+                    user_depart = user_info["Дирекция"][0]
                     
                 elif key == "WORK_POSITION":
-                    user_position = user_info[0]["WORK_POSITION"]
+                    user_position = user_info["WORK_POSITION"]
                     
                 elif key == "PERSONAL_PHOTO":
-                    if user_info[0]['PERSONAL_PHOTO'] != "":
-                        user_url = user_info[0]['PERSONAL_PHOTO']
+                    if user_info['PERSONAL_PHOTO'] != "":
+                        user_url = user_info['PERSONAL_PHOTO']
                         response = requests.get(user_url)
                         if response.status_code == 200:
                             photo = base64.b64encode(response.content).decode("utf-8")
