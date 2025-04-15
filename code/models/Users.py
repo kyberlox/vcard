@@ -16,17 +16,27 @@ class User:
     def __init__(self, uuid=""):
         self.uuid = uuid
     
+    def findByIDdepart(self, id):
+        return b24().getDepartByID(id)
+
     def finfByUuid(self):
-        titles_to_change = {'UF_USR_1696592324977' : 'Дирекция', 'UF_USR_1705744824758' : 'Подразделение', 'UF_USR_1707225966581' : 'Совместительство'}
+        titles_to_change = {'UF_USR_1696592324977' : 'Direction', 'UF_USR_1705744824758' : 'Division', 'UF_USR_1707225966581' : 'Combination'}
         search = b24().getUsersByUuid(f"ad|{self.uuid}")
         for title, new_title in titles_to_change.items():
             if title in search[0].keys():
                 value = search[0].pop(title)
                 search[0][new_title] = value
+
+        departments_id = search[0]["UF_DEPARTMENT"]
+        num_to_word = []
+        for department in departments_id:
+            depart = self.findByIDdepart(department)
+            name = depart[0]["NAME"]
+            num_to_word.append(name)
+        search[0]["UF_DEPARTMENT"] = num_to_word
         return search[0]
 
-    def findByIDdepart(self, id):
-        return b24().getDepartByID(id)
+    
 
     def create_qr(self):
         data = f'https://vcard.emk.ru/{self.uuid}'
