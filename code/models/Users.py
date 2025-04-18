@@ -103,7 +103,7 @@ class User:
             else:
                 pass
         
-        if len(user_company) != 0:
+        if user_company is not None:
             if len(user_position) != 0 and len(user_depart) != 0:
                 vcard.add("TITLE").value = f'{user_company} - {user_depart}, {user_position}'
             elif len(user_position) != 0 and len(user_depart) == 0:
