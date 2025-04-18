@@ -49,7 +49,7 @@ class User:
         user_info = self.finfByUuid()
         filename = f'{cyrillic_to_latin(user_info['LAST_NAME'])}-{cyrillic_to_latin(user_info['NAME'])}-{cyrillic_to_latin(user_info['SECOND_NAME'])}.vcf'
 
-        important_param = ['NAME', 'LAST_NAME', 'SECOND_NAME', 'EMAIL', "PERSONAL_MOBILE", 'WORK_PHONE', 'WORK_POSITION','Дирекция', "PERSONAL_PHOTO"]
+        important_param = ['NAME', 'LAST_NAME', 'SECOND_NAME', 'EMAIL', "PERSONAL_MOBILE", 'WORK_PHONE', 'WORK_POSITION','Direction', "PERSONAL_PHOTO"]
 
         vcard = vobject.vCard()
         vcard.add("FN").value = f"{user_info['LAST_NAME']} {user_info['NAME']} {user_info['SECOND_NAME']}"
@@ -77,8 +77,8 @@ class User:
                     if domen[-1] == 'emk.ru':
                         user_company = 'АО "НПО "ЭМК"'
 
-                elif key == 'Дирекция':                    
-                    user_depart = user_info["Дирекция"][0]
+                elif key == 'Direction':                    
+                    user_depart = user_info["Direction"][0]
                     
                 elif key == "WORK_POSITION":
                     user_position = user_info["WORK_POSITION"]
