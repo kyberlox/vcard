@@ -17,24 +17,31 @@ class User:
         self.uuid = uuid
     
     def findByIDdepart(self, id):
-        return b24().getDepartByID(id)
+        depart = b24().getDepartByID(id)
+        if depart != []:
+            return depart
+        else:
+            return {"status" : False, "msg" : "Департамент не обнаружен"}
 
     def finfByUuid(self):
         titles_to_change = {'UF_USR_1696592324977' : 'Direction', 'UF_USR_1705744824758' : 'Division', 'UF_USR_1707225966581' : 'Combination'}
         search = b24().getUsersByUuid(f"ad|{self.uuid}")
-        for title, new_title in titles_to_change.items():
-            if title in search[0].keys():
-                value = search[0].pop(title)
-                search[0][new_title] = value
+        if search != []:
+            for title, new_title in titles_to_change.items():
+                if title in search[0].keys():
+                    value = search[0].pop(title)
+                    search[0][new_title] = value
 
-        departments_id = search[0]["UF_DEPARTMENT"]
-        num_to_word = []
-        for department in departments_id:
-            depart = self.findByIDdepart(department)
-            name = depart[0]["NAME"]
-            num_to_word.append(name)
-        search[0]["UF_DEPARTMENT"] = num_to_word
-        return search[0]
+            departments_id = search[0]["UF_DEPARTMENT"]
+            num_to_word = []
+            for department in departments_id:
+                depart = self.findByIDdepart(department)
+                name = depart[0]["NAME"]
+                num_to_word.append(name)
+            search[0]["UF_DEPARTMENT"] = num_to_word
+            return search[0]
+        else:
+            return {"status" : False, "msg" : "Пользователь с таким uuid не обнаружен"}
 
     
 
